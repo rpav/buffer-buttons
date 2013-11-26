@@ -25,7 +25,8 @@
       `(progn
          (defun ,function-name (,arg-name) ,@body)
          (puthash ',name
-                  `((function . ,',function-name)
+                  `((name . ,',name)
+                    (function . ,',function-name)
                     (label . ,',label)
                     (help-text . ,',help-text)
                     (prefix . ,',prefix)
@@ -34,7 +35,7 @@
 
 (defun buffer-button-string (button-spec)
   (concat (cdr (assoc 'prefix button-spec))
-          "#button:" (symbol-name name)
+          "#button:" (symbol-name (cdr (assoc 'name button-spec)))
           (cdr (assoc 'suffix button-spec))))
 
 (defun buffer-button-modified (overlay after-p beg end &optional len)
@@ -54,8 +55,15 @@
                'field 'buffer-button))
 
 (defun insert-buffer-button (name)
-  (interactive "SBuffer Button name to insert: ")
-  (let ((button-spec (gethash name *buffer-buttons-definitions*)))
+  (interactive
+   (list
+    (completing-read "Buffer Button name to insert: "
+                     (let (list)
+                       (maphash (lambda (k v) (push (symbol-name k) list))
+                                *buffer-buttons-definitions*)
+                       list)
+                     nil t)))
+  (let ((button-spec (gethash (intern name) *buffer-buttons-definitions*)))
     (if (not button-spec)
         (message "I don't know about buffer buttons called \"%s\"" name)
       (let ((beg (point)))
