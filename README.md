@@ -3,10 +3,11 @@
 Working in CL, particularly with slime, I often wish I could simply
 click and evaluate a block of code:
 
-<tt>
-(progn<br>
-&nbsp;&nbsp;(some-function)<br>
-&nbsp;&nbsp;(some-other-function)) <a href>&lt;- Eval</a></tt>
+```lisp
+(progn
+  (some-function)
+  (some-other-function)) [<- Eval]
+```
 
 That is exactly what `buffer-buttons` is for.  This will let you
 easily define, save, and load button definitions in files.  For
