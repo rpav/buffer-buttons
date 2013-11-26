@@ -1,6 +1,6 @@
 ;;; buffer-buttons.el --- Define, save, and load code-safe buttons in files for emacs
 
-;; Copyright (C) 2014  Ryan Pavlik
+;; Copyright (C) 2013  Ryan Pavlik
 
 ;; Author: Ryan Pavlik <rpavlik@gmail.com>
 ;; URL: https://github.com/rpav/buffer-buttons
@@ -83,7 +83,7 @@
     (if (not button-spec)
         (message "I don't know about buffer buttons called \"%s\"" name)
       (let ((beg (point)))
-        (insert-string (buffer-button-string button-spec))
+        (insert (buffer-button-string button-spec))
         (make-buffer-button-on-region button-spec beg (point))))))
 
 (defun buffer-instance-button-in-buffer (name button-spec)
