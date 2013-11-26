@@ -1,8 +1,11 @@
-;; buffer-buttons.el : Save/load buttons with buffers, code-friendly
+;;; buffer-buttons.el --- Define, save, and load code-safe buttons in files for emacs
 
-;; buffer-buttons.el
 ;; Copyright (C) 2014  Ryan Pavlik
-;; 
+
+;; Author: Ryan Pavlik <rpavlik@gmail.com>
+;; URL: https://github.com/rpav/buffer-buttons
+;; Version: 1.0
+
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
@@ -16,6 +19,19 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+;;; Commentary:
+;;
+;; This makes defining, saving, and loading "code-safe" emacs buttons
+;; fairly simple.
+;;
+;; You can use `M-x insert-buffer-button` to insert a predefined
+;; button, which can be saved and automatically restored when the file
+;; is loaded.
+;;
+;; To define new buttons, use the macro `define-buffer-button`.  See
+;; https://github.com/rpav/buffer-buttons for more information.
+
+;;; Code:
 (defvar *buffer-buttons-definitions* (make-hash-table))
 
 (defmacro define-buffer-button (args &rest body)
@@ -105,3 +121,5 @@
                                      :label "Slime Connect"
                                      :prefix ";;")
   (slime-connect "127.0.0.1" 4005))
+
+;;; buffer-buttons.el ends here
