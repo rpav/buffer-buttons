@@ -36,7 +36,7 @@ This will add the appropriate hook for loading.
 
 ### Inserting a button
 
-Inserting a button is as simple as `M-x insert-buffer-button` followed
+Inserting a button is as simple as `M-x buffer-button-insert` followed
 by the button type.  The following are predefined:
 
 * `slime-eval`: Call `slime-eval-last-expression`.
@@ -67,7 +67,7 @@ This defines the `slime-eval` button type, the function
 The variable `b` is the emacs button object.  The body is the function
 is the body executed when the button is clicked.
 
-When a button is inserted via `insert-buffer-button`, the following
+When a button is inserted via `buffer-button-insert`, the following
 text is generated in the buffer: `;;#button:slime-eval`.  Overlay
 properties are then used to convert this into a functional and
 visually-appealing link.

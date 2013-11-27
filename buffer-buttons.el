@@ -24,7 +24,7 @@
 ;; This makes defining, saving, and loading "code-safe" emacs buttons
 ;; fairly simple.
 ;;
-;; You can use `M-x insert-buffer-button` to insert a predefined
+;; You can use `M-x buffer-button-insert` to insert a predefined
 ;; button, which can be saved and automatically restored when the file
 ;; is loaded.
 ;;
@@ -70,7 +70,7 @@
                'help-echo (cdr (assoc 'help-text button-spec))
                'field 'buffer-button))
 
-(defun insert-buffer-button (name)
+(defun buffer-button-insert (name)
   (interactive
    (list
     (completing-read "Buffer Button name to insert: "
@@ -110,16 +110,19 @@
     (goto-char (button-start b))
     (eval-last-sexp nil)))
 
-(define-buffer-button (slime-eval b
-                                  :label "<- Eval"
-                                  :prefix ";;")
-  (save-excursion
-    (goto-char (button-start b))
-    (slime-eval-last-expression)))
 
-(define-buffer-button (slime-connect b
-                                     :label "Slime Connect"
+(eval-after-load 'slime
+  '(define-buffer-button (slime-eval b
+                                     :label "<- Eval"
                                      :prefix ";;")
-  (slime-connect "127.0.0.1" 4005))
+     (save-excursion
+       (goto-char (button-start b))
+       (slime-eval-last-expression))))
+
+(eval-after-load 'slime
+  '(define-buffer-button (slime-connect b
+                                        :label "Slime Connect"
+                                        :prefix ";;")
+     (slime-connect "127.0.0.1" 4005)))
 
 ;;; buffer-buttons.el ends here
