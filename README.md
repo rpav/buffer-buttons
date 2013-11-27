@@ -69,7 +69,7 @@ is the body executed when the button is clicked.
 When a button is inserted via `buffer-button-insert`, the following
 text is generated in the buffer: `;;#button:slime-eval`.  Overlay
 properties are then used to convert this into a functional and
-visually-appealing link.
+visually-appealing button (or link, depending on your device).
 
 You may also specify `:prefix` and `:suffix`, which get prepended and
 appended respectively to the generated text.  This is useful for
