@@ -34,8 +34,24 @@
 ;;; Code:
 (defvar *buffer-buttons-definitions* (make-hash-table))
 
+(defface buffer-button-face
+  '((((type graphic))
+     :box (:line-width 2 :style released-button)
+     :background "grey75"
+     :foreground "black")
+    (t :inherit button))
+  "Face used for Buffer Buttons.")
+
+(defface buffer-button-face-hover
+  '((((type graphic))
+     :box (:line-width 2 :style released-button)
+     :background "grey90"
+     :foreground "black")
+    (t :inherit highlight))
+  "Face used for Buffer Buttons when hovered.")
+
 (defmacro define-buffer-button (args &rest body)
-  (destructuring-bind (name arg-name &key (label "Button") (prefix " ") (help-text name) suffix)
+  (destructuring-bind (name arg-name &key (label "Button") (prefix " ") (help-text (symbol-name name)) suffix)
       args
     (let ((function-name (intern (concat "buffer-button-fn-" (symbol-name name)))))
       `(progn
@@ -62,8 +78,11 @@
       (delete-overlay overlay))))
 
 (defun make-buffer-button-on-region (button-spec beg end)
-  (make-button beg end 'action (cdr (assoc 'function button-spec))
+  (make-button beg end
+               'action (cdr (assoc 'function button-spec))
                'follow-link t
+               'face 'buffer-button-face
+               'mouse-face 'buffer-button-face-hover
                'display (cdr (assoc 'label button-spec))
                'evaporate t
                'modification-hooks '(buffer-button-modified)
@@ -95,11 +114,17 @@
                                       (- (point) (length tag))
                                       (point))))))
 
-(defun buffer-button-find-file-hook ()
+(defun buffer-button-process-buffer ()
   (maphash 'buffer-instance-button-in-buffer
            *buffer-buttons-definitions*))
 
-(add-hook 'find-file-hook 'buffer-button-find-file-hook)
+(define-minor-mode buffer-button-mode
+  "Toggle buffer buttons.")
+
+(define-globalized-minor-mode
+  buffer-button-global-mode
+  buffer-button-mode
+  buffer-button-process-buffer)
 
  ;; Example Definitions
 

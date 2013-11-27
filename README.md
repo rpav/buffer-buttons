@@ -30,9 +30,8 @@ can find them, and put this in your `.emacs`:
 
 ```elisp
 (load "buffer-buttons")
+(buffer-button-global-mode 1)
 ```
-
-This will add the appropriate hook for loading.
 
 ### Inserting a button
 
