@@ -150,4 +150,5 @@
                                         :prefix ";;")
      (slime-connect "127.0.0.1" 4005)))
 
+(provide 'buffer-buttons)
 ;;; buffer-buttons.el ends here
